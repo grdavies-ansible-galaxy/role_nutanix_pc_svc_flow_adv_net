@@ -1,0 +1,48 @@
+---
+# tasks file for check_prereqs.yml
+
+- name: Get current Flow advanced networking controllers
+  ansible.builtin.uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"
+    method: GET
+    validate_certs: "{{ validate_certs }}"
+    status_code: 200
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+  register: nutanix_flow_adv_net_get_controllers
+
+- name: Debug nutanix_flow_adv_net_get_controllers.json
+  ansible.builtin.debug:
+    var: nutanix_flow_adv_net_get_controllers.json
+  when:
+    - nutanix_debug
+
+- name: Enable Flow advanced networking controllers
+  ansible.builtin.uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"
+    body: "{}"
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    body_format: json
+    status_code: 201
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+  register: nutanix_flow_adv_net_enable_controllers
+
+- name: Debug nutanix_flow_adv_net_enable_controllers.json
+  ansible.builtin.debug:
+    var: nutanix_flow_adv_net_enable_controllers.json
+  when:
+    - nutanix_debug
+
+- name: Wait for Flow advanced networking task to complete
+  ansible.builtin.import_role:
+    name: grdavies.role_nutanix_prism_monitor_task
+  vars:
+    nutanix_task_uuid: "{{ nutanix_flow_adv_net_enable_controllers.json.data.extId }}"
+    nutanix_task_retries: 30
+    nutanix_task_retry_delay: 120
+
+- name: Set prism_flow_adv_net_enable_task_status
+  ansible.builtin.set_fact:
+    prism_flow_adv_net_enable_task_status: "{{ monitored_task }}"

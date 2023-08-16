@@ -1,0 +1,33 @@
+---
+# tasks file for check_prereqs.yml
+
+- name: Get current CMSP configuration
+  ansible.builtin.uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v1/genesis"
+    body:
+      value: '{".oid":"ClusterManager",".method":"get_cmsp_status",".kwargs":{}}'
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    body_format: json
+    status_code: 200
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+  register: nutanix_cmsp_current_state
+
+- name: Set nutanix_cmsp_current_state_result_value
+  ansible.builtin.set_fact:
+    nutanix_cmsp_current_state_result_value: "{{ nutanix_cmsp_current_state.json | community.general.json_query(query) | to_json | from_json }}"
+  vars:
+    query: "value"
+
+- name: Debug nutanix_cmsp_current_state_result_value
+  ansible.builtin.debug:
+    var: nutanix_cmsp_current_state_result_value
+  when:
+    - nutanix_debug
+
+- name: CMSP Disabled
+  ansible.builtin.fail:
+    msg: "MSP is disabled within Prism Central. Please enable MSP and retry this operation."
+  when:
+    - nutanix_cmsp_current_state_result_value[".return"]["status"] == 'Disabled'

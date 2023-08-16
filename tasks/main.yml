@@ -1,0 +1,20 @@
+---
+# tasks file for nutanix_role_prism_flow_adv_net
+- name: Setup connection to Nutanix API
+  ansible.builtin.include_tasks: setup_api.yml
+
+- name: "Task can only be run against Prism Central"
+  ansible.builtin.fail:
+    msg: "'nutanix_host' needs to be set to the IP or VIP of Prism Central. Please check the nutanix_host variable and try again."
+  when:
+    - nutanix_endpoint_prism_type != 'pc'
+
+- name: Check Flow Advanced Networking Pre-Reqs
+  ansible.builtin.include_tasks: check_prereqs.yml
+  when:
+    - nutanix_flow_adv_net_enable | default(False)
+
+- name: Enable Flow Advanced Networking
+  ansible.builtin.include_tasks: enable_feature.yml
+  when:
+    - nutanix_flow_adv_net_enable | default(False)
