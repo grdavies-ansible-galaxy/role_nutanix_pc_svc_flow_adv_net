@@ -15,6 +15,6 @@
     - nutanix_flow_adv_net_enable | default(False)
 
 - name: Enable Flow Advanced Networking
-  ansible.builtin.include_tasks: enable_feature.yml
+  ansible.builtin.include_tasks: enable_service.yml
   when:
     - nutanix_flow_adv_net_enable | default(False)
