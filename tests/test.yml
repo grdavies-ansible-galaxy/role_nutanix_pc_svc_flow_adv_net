@@ -4,7 +4,8 @@
   roles:
     - role: ../..
   vars:
-    nutanix_host: 10.38.25.39
+    nutanix_host: 10.38.18.201
     nutanix_username: admin
-    nutanix_password: nx2Tech987!
-    enable_flow_adv_net: yes
+    nutanix_password: nx2Tech618!
+    nutanix_flow_adv_net_enable: true
+    nutanix_debug: true

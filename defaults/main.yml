@@ -7,3 +7,4 @@ nutanix_port: 9440
 validate_certs: false
 nutanix_debug: false
 enable_flow_adv_net: false
+nutanix_flow_adv_net_current_state: enabled

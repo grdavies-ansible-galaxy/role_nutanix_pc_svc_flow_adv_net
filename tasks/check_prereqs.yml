@@ -28,6 +28,6 @@
 
 - name: CMSP Disabled
   ansible.builtin.fail:
-    msg: "MSP is disabled within Prism Central. Please enable MSP and retry this operation."
+    msg: "The microservice platform is disabled within Prism Central. Please enable MSP and retry this operation."
   when:
     - nutanix_cmsp_current_state_result_value[".return"]["status"] == 'Disabled'

@@ -1,22 +1,5 @@
 ---
 # tasks file for check_prereqs.yml
-
-- name: Get current Flow advanced networking controllers
-  ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"
-    method: GET
-    validate_certs: "{{ validate_certs }}"
-    status_code: 200
-    headers:
-      Authorization: "{{ nutanix_api_auth }}"
-  register: nutanix_flow_adv_net_get_controllers
-
-- name: Debug nutanix_flow_adv_net_get_controllers.json
-  ansible.builtin.debug:
-    var: nutanix_flow_adv_net_get_controllers.json
-  when:
-    - nutanix_debug
-
 - name: Enable Flow advanced networking controllers
   ansible.builtin.uri:
     url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"

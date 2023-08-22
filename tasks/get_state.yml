@@ -1,0 +1,32 @@
+---
+- name: Get current Flow Advanced Networking state
+  uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"
+    method: GET
+    validate_certs: "{{ validate_certs }}"
+    body_format: json
+    status_code: 200
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+  register: nutanix_flow_adv_net_state
+
+- name: Debug nutanix_flow_adv_net_state
+  debug:
+    var: nutanix_flow_adv_net_state
+  when:
+    - nutanix_debug
+
+- name: Set nutanix_flow_adv_net_current_state
+  ansible.builtin.set_fact:
+    nutanix_flow_adv_net_current_state: "disabled"
+  when: nutanix_flow_adv_net_state.json.data is not defined
+
+- name: Debug nutanix_flow_adv_net_current_state
+  debug:
+    var: nutanix_flow_adv_net_current_state
+  when:
+    - nutanix_debug
+
+- name: Current status of Flow Advanced Networking service(s)
+  debug:
+    msg: "Flow Advanced Networking is currently in a '{{ nutanix_flow_adv_net_current_state }}' state."
