@@ -3,15 +3,15 @@
 
 - name: Get current CMSP configuration
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v1/genesis"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v1/genesis"
     body:
       value: '{".oid":"ClusterManager",".method":"get_cmsp_status",".kwargs":{}}'
     method: POST
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_validate_certs }}"
     body_format: json
     status_code: 200
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
   register: nutanix_cmsp_current_state
 
 - name: Set nutanix_cmsp_current_state_result_value
@@ -24,7 +24,7 @@
   ansible.builtin.debug:
     var: nutanix_cmsp_current_state_result_value
   when:
-    - nutanix_debug
+    - role_nutanix_pc_svc_flow_adv_net_debug
 
 - name: CMSP Disabled
   ansible.builtin.fail:

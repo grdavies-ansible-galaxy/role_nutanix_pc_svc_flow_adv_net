@@ -1,32 +1,32 @@
 ---
 - name: Get current Flow Advanced Networking state
   uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/api/networking/v2.1.a1/config/controllers"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/api/networking/v2.1.a1/config/controllers"
     method: GET
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_validate_certs }}"
     body_format: json
     status_code: 200
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
   register: nutanix_flow_adv_net_state
 
 - name: Debug nutanix_flow_adv_net_state
   debug:
     var: nutanix_flow_adv_net_state
   when:
-    - nutanix_debug
+    - role_nutanix_pc_svc_flow_adv_net_debug
 
-- name: Set nutanix_flow_adv_net_current_state
+- name: Set role_nutanix_pc_svc_flow_adv_net_state
   ansible.builtin.set_fact:
-    nutanix_flow_adv_net_current_state: "disabled"
+    role_nutanix_pc_svc_flow_adv_net_state: "disabled"
   when: nutanix_flow_adv_net_state.json.data is not defined
 
-- name: Debug nutanix_flow_adv_net_current_state
+- name: Debug role_nutanix_pc_svc_flow_adv_net_state
   debug:
-    var: nutanix_flow_adv_net_current_state
+    var: role_nutanix_pc_svc_flow_adv_net_state
   when:
-    - nutanix_debug
+    - role_nutanix_pc_svc_flow_adv_net_debug
 
 - name: Current status of Flow Advanced Networking service(s)
   debug:
-    msg: "Flow Advanced Networking is currently in a '{{ nutanix_flow_adv_net_current_state }}' state."
+    msg: "Flow Advanced Networking is currently in a '{{ role_nutanix_pc_svc_flow_adv_net_state }}' state."
