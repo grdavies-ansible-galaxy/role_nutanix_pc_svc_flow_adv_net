@@ -21,7 +21,7 @@ This Ansible role manage the Flow Advanced Networking service on Prism Central.
 
 ## Example Playbook
 
-```
+```YAML
 - hosts: localhost
   gather_facts: false
   roles:
