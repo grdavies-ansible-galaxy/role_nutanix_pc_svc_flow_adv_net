@@ -1,10 +1,10 @@
 ---
 # defaults file for nutanix_role_prism_flow_adv_net
 role_nutanix_pc_svc_flow_adv_net_host: ""
-role_nutanix_pc_svc_flow_adv_net_username: ""
-role_nutanix_pc_svc_flow_adv_net_password: ""
-role_nutanix_pc_svc_flow_adv_net_port: 9440
-role_nutanix_pc_svc_flow_adv_net_validate_certs: false
+role_nutanix_pc_svc_flow_adv_net_host_username: ""
+role_nutanix_pc_svc_flow_adv_net_host_password: ""
+role_nutanix_pc_svc_flow_adv_net_host_port: 9440
+role_nutanix_pc_svc_flow_adv_net_host_validate_certs: false
 role_nutanix_pc_svc_flow_adv_net_debug: false
 enable_flow_adv_net: false
 role_nutanix_pc_svc_flow_adv_net_state: enabled
