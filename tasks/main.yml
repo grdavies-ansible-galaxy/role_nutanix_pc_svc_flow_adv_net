@@ -6,7 +6,7 @@
   vars:
     role_nutanix_prism_api_host: "{{ role_nutanix_pc_svc_flow_adv_net_host }}"
     role_nutanix_prism_api_username: "{{ role_nutanix_pc_svc_flow_adv_net_username }}"
-    role_nutanix_prism_api_password: "{{ role_nutanix_pc_svc_flow_adv_net_password | default(omit) }}"
+    role_nutanix_prism_api_password: "{{ role_nutanix_pc_svc_flow_adv_net_password }}"
     role_nutanix_prism_api_port: "{{ role_nutanix_pc_svc_flow_adv_net_port | default(omit) }}"
     role_nutanix_prism_api_validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_validate_certs | default(omit) }}"
     role_nutanix_prism_api_debug: "{{ role_nutanix_pc_svc_flow_adv_net_debug | default(omit) }}"
