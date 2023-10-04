@@ -1,2 +1,3 @@
 enable_feature.yml load-failure[filenotfounderror]
 tasks/enable_service.yml var-naming[no-role-prefix]
+tasks/check_auto_enable.yml yaml[line-length]
