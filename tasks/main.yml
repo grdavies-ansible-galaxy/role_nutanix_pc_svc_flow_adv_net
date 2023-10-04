@@ -19,17 +19,23 @@
   when:
     - role_nutanix_prism_api_endpoint_type != 'pc'
 
+- name: Check for Advanced Networking Auto-Enable Task
+  include_tasks: check_auto_enable.yml
+
 - name: Get current Flow Advanced Networking State
   include_tasks: get_state.yml
+  when: not nutanix_flow_adv_net_auto_enabled
 
 - name: Check Flow Advanced Networking Pre-Reqs
   ansible.builtin.include_tasks: check_prereqs.yml
   when:
     - role_nutanix_pc_svc_flow_adv_net_enable | default(false)
     - role_nutanix_pc_svc_flow_adv_net_state | lower != 'enabled'
+    - not nutanix_flow_adv_net_auto_enabled
 
 - name: Enable Flow Advanced Networking
   ansible.builtin.include_tasks: enable_service.yml
   when:
     - role_nutanix_pc_svc_flow_adv_net_enable | default(false)
     - role_nutanix_pc_svc_flow_adv_net_state | lower != 'enabled'
+    - not nutanix_flow_adv_net_auto_enabled

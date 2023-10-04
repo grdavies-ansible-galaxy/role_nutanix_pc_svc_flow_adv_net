@@ -4,8 +4,8 @@
   roles:
     - role: ../..
   vars:
-    role_nutanix_pc_svc_flow_adv_net_host: 10.38.18.201
+    role_nutanix_pc_svc_flow_adv_net_host: 10.38.39.40
     role_nutanix_pc_svc_flow_adv_net_host_username: admin
-    role_nutanix_pc_svc_flow_adv_net_host_password: nx2Tech618!
+    role_nutanix_pc_svc_flow_adv_net_host_password: nx2Tech869!
     role_nutanix_pc_svc_flow_adv_net_enable: true
-    role_nutanix_pc_svc_flow_adv_net_debug: true
+    # role_nutanix_pc_svc_flow_adv_net_debug: true

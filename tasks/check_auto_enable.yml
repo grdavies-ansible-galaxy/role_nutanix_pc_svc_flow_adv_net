@@ -1,0 +1,76 @@
+---
+- name: Get current running tasks
+  ansible.builtin.uri:
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/tasks/list"
+    body:
+      count: 100
+      include_completed: true
+      include_subtasks_info: false
+      operation_type_list: ["kNetworkControllerAutoEnable"]
+    method: POST
+    validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_host_validate_certs }}"
+    body_format: json
+    status_code: 201
+    headers:
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
+  register: nutanix_flow_adv_net_running_tasks
+
+- name: Debug nutanix_flow_adv_net_running_tasks
+  ansible.builtin.debug:
+    var: nutanix_flow_adv_net_running_tasks
+  when:
+    - role_nutanix_pc_svc_flow_adv_net_debug
+    - not nutanix_flow_adv_net_running_tasks.failed
+
+- name: Set nutanix_flow_adv_net_auto_enable_task
+  ansible.builtin.set_fact:
+    nutanix_flow_adv_net_auto_enable_task: "{{ nutanix_flow_adv_net_running_tasks.json | community.general.json_query('entities[?operation_type==`kNetworkControllerAutoEnable`]') | first }}"
+  when:
+    - not nutanix_flow_adv_net_running_tasks.failed
+
+- name: Debug nutanix_flow_adv_net_auto_enable_task
+  ansible.builtin.debug:
+    var: nutanix_flow_adv_net_auto_enable_task
+  when:
+    - role_nutanix_pc_svc_flow_adv_net_debug
+    - nutanix_flow_adv_net_auto_enable_task is defined
+
+- name: Wait for Flow advanced networking task to complete
+  ansible.builtin.import_role:
+    name: grdavies.role_nutanix_prism_monitor_task
+  vars:
+    role_nutanix_prism_monitor_task_host: "{{ role_nutanix_pc_svc_flow_adv_net_host }}"
+    role_nutanix_prism_monitor_task_host_username: "{{ role_nutanix_pc_svc_flow_adv_net_host_username }}"
+    role_nutanix_prism_monitor_task_host_password: "{{ role_nutanix_pc_svc_flow_adv_net_host_password }}"
+    role_nutanix_prism_monitor_task_host_port: "{{ role_nutanix_pc_svc_flow_adv_net_host_port | default(omit) }}"
+    role_nutanix_prism_monitor_task_host_validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_host_validate_certs | default(omit) }}"
+    role_nutanix_prism_monitor_task_debug: "{{ role_nutanix_pc_svc_flow_adv_net_debug | default(omit) }}"
+    role_nutanix_prism_monitor_task_uuid: "{{ nutanix_flow_adv_net_auto_enable_task.uuid }}"
+    role_nutanix_prism_monitor_task_retries: 300
+    role_nutanix_prism_monitor_task_retry_delay: 120
+    role_nutanix_prism_monitor_task_allow_failure: true
+  when:
+    - nutanix_flow_adv_net_auto_enable_task is defined
+
+- name: Debug role_nutanix_prism_monitor_task_result
+  ansible.builtin.debug:
+    var: role_nutanix_prism_monitor_task_result
+  when:
+    - role_nutanix_pc_svc_flow_adv_net_debug
+    - role_nutanix_prism_monitor_task_result is defined
+
+- name: Set nutanix_flow_adv_net_auto_enable_task_status
+  ansible.builtin.set_fact:
+    nutanix_flow_adv_net_auto_enable_task_status: "{{ role_nutanix_prism_monitor_task_result }}"
+  when: role_nutanix_prism_monitor_task_result is defined
+
+- name: Set nutanix_flow_adv_net_auto_enabled == true
+  ansible.builtin.set_fact:
+    nutanix_flow_adv_net_auto_enabled: true
+  when:
+    - nutanix_flow_adv_net_auto_enable_task_status is defined
+    - nutanix_flow_adv_net_auto_enable_task_status.json.status == "SUCCEEDED"
+
+- name: Debug nutanix_flow_adv_net_auto_enabled
+  ansible.builtin.debug:
+    msg: "Flow Advanced Networking Auto Enable task status '{{ nutanix_flow_adv_net_auto_enabled }}'"
