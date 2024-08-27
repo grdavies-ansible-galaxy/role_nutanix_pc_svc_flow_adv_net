@@ -4,15 +4,16 @@ This Ansible role manage the Flow Advanced Networking service on Prism Central.
 
 ## Role Variables
 
-| Variable                                               | Required | Default | Choices                   | Comments                                                                                               |
-|--------------------------------------------------------|----------|---------|---------------------------|--------------------------------------------------------------------------------------------------------|
-| role_nutanix_pc_svc_flow_adv_net_host                  | yes      |         |                           | The IP address or FQDN for the Prism Centra) where you want to enable the service.                     |
-| role_nutanix_pc_svc_flow_adv_net_host_username         | no       | "admin" |                           | A valid username with appropriate rights to access the Nutanix API.                                    |
-| role_nutanix_pc_svc_flow_adv_net_host_password         | yes      |         |                           | A valid password for the supplied username.                                                            |
-| role_nutanix_pc_svc_flow_adv_net_host_port             | no       | 9440    |                           | The Prism TCP port                                                                                     |
-| role_nutanix_pc_svc_flow_adv_net_host_validate_certs   | no       | false   | true / false              | Whether to check if Prism UI certificates are valid.                                                   |
-| role_nutanix_pc_svc_flow_adv_net_debug                 | no       | false   | true / false              | Whether to output variable contents for debugging purposes.                                            |
-| role_nutanix_pc_svc_flow_adv_net_enable                | yes      |         | true / false              | Set value to 'false' to enable Flow Advanced Networking.                                               |
+| Variable                                               | Required | Default    | Choices                   | Comments                                                                                                     |
+|--------------------------------------------------------|----------|------------|---------------------------|--------------------------------------------------------------------------------------------------------------|
+| role_nutanix_pc_svc_flow_adv_net_host                  | yes      |            |                           | The IP address or FQDN for the Prism Centra) where you want to enable the service.                           |
+| role_nutanix_pc_svc_flow_adv_net_host_username         | no       | "admin"    |                           | A valid username with appropriate rights to access the Nutanix API.                                          |
+| role_nutanix_pc_svc_flow_adv_net_host_password         | yes      |            |                           | A valid password for the supplied username.                                                                  |
+| role_nutanix_pc_svc_flow_adv_net_host_port             | no       | 9440       |                           | The Prism TCP port                                                                                           |
+| role_nutanix_pc_svc_flow_adv_net_host_validate_certs   | no       | false      | true / false              | Whether to check if Prism UI certificates are valid.                                                         |
+| role_nutanix_pc_svc_flow_adv_net_debug                 | no       | false      | true / false              | Whether to output variable contents for debugging purposes.                                                  |
+| role_nutanix_pc_svc_flow_adv_net_enable                | yes      |            | true / false              | Set value to 'false' to enable Flow Advanced Networking.                                                     |
+| nutanix_flow_adv_net_default_vlan_stack                | no       | "ADVANCED" |                           | Defaults to "ADVANCED" but can also be set to "LEGACY". Default VLAN stack to instatiate VLAN-backed subnets |
 
 ## Dependencies
 
@@ -30,7 +31,7 @@ This Ansible role manage the Flow Advanced Networking service on Prism Central.
     role_nutanix_pc_svc_flow_adv_net_host: 10.38.179.39
     role_nutanix_pc_svc_flow_adv_net_host_username: admin
     role_nutanix_pc_svc_flow_adv_net_host_password: nx2Tech283!
-    enable_flow_adv_net: yes
+    enable_flow_adv_net: true
 ```
 
 ## License
