@@ -7,7 +7,7 @@
 - name: Check nutanix_flow_adv_net_default_vlan_stack value
   ansible.builtin.fail:
     msg: "The variable nutanix_flow_adv_net_default_vlan_stack can only be set to these values {{ nutanix_flow_adv_net_default_vlan_stack_allowed_values }}"
-  when: 
+  when:
     - nutanix_flow_adv_net_default_vlan_stack not in nutanix_flow_adv_net_default_vlan_stack_allowed_values
 
 - name: Debug nutanix_flow_adv_net_enable_ext_uuid
@@ -19,7 +19,7 @@
 - name: Enable Flow advanced networking controllers
   ansible.builtin.uri:
     url: "https://{{ role_nutanix_prism_api_url_base }}/api/networking/v4.0.b1/config/controllers"
-    body: 
+    body:
       defaultVlanStack: "{{ nutanix_flow_adv_net_default_vlan_stack }}"
     method: POST
     validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_host_validate_certs }}"
