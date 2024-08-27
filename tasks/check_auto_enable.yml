@@ -24,9 +24,10 @@
 
 - name: Set nutanix_flow_adv_net_auto_enable_task
   ansible.builtin.set_fact:
-    nutanix_flow_adv_net_auto_enable_task: "{{ nutanix_flow_adv_net_running_tasks.json | community.general.json_query('entities[?operation_type==`kNetworkControllerAutoEnable`]') | first | default(False) }}"
+    nutanix_flow_adv_net_auto_enable_task: "{{ nutanix_flow_adv_net_running_tasks.json | community.general.json_query('entities[?operation_type==`kNetworkControllerAutoEnable`]') | first }}"
   when:
     - not nutanix_flow_adv_net_running_tasks.failed
+    - nutanix_flow_adv_net_running_tasks.json.metadata.grand_total_entities > 0
 
 - name: Debug nutanix_flow_adv_net_auto_enable_task
   ansible.builtin.debug:
@@ -34,6 +35,7 @@
   when:
     - role_nutanix_pc_svc_flow_adv_net_debug
     - nutanix_flow_adv_net_auto_enable_task is defined
+    
 
 - name: Wait for Flow advanced networking task to complete
   ansible.builtin.import_role:
