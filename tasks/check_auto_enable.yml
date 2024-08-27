@@ -24,7 +24,7 @@
 
 - name: Set nutanix_flow_adv_net_auto_enable_task
   ansible.builtin.set_fact:
-    nutanix_flow_adv_net_auto_enable_task: "{{ nutanix_flow_adv_net_running_tasks.json | community.general.json_query('entities[?operation_type==`kNetworkControllerAutoEnable`]') | first }}"
+    nutanix_flow_adv_net_auto_enable_task: "{{ nutanix_flow_adv_net_running_tasks.json | community.general.json_query('entities[?operation_type==`kNetworkControllerAutoEnable`]') | first | default(False) }}"
   when:
     - not nutanix_flow_adv_net_running_tasks.failed
 
