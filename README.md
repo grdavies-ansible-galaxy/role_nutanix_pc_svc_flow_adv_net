@@ -13,6 +13,7 @@ This Ansible role manage the Flow Advanced Networking service on Prism Central.
 | role_nutanix_pc_svc_flow_adv_net_host_validate_certs   | no       | false      | true / false              | Whether to check if Prism UI certificates are valid.                                                         |
 | role_nutanix_pc_svc_flow_adv_net_debug                 | no       | false      | true / false              | Whether to output variable contents for debugging purposes.                                                  |
 | role_nutanix_pc_svc_flow_adv_net_enable                | yes      |            | true / false              | Set value to 'false' to enable Flow Advanced Networking.                                                     |
+| nutanix_flow_adv_net_default_vlan_stack                | no       | "ADVANCED" |                           | Defaults to "ADVANCED" but can also be set to "LEGACY". Default VLAN stack to instatiate VLAN-backed subnets |
 
 ## Dependencies
 
