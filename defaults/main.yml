@@ -9,3 +9,7 @@ role_nutanix_pc_svc_flow_adv_net_debug: false
 enable_flow_adv_net: false
 role_nutanix_pc_svc_flow_adv_net_state: enabled
 nutanix_flow_adv_net_auto_enabled: false
+nutanix_flow_adv_net_default_vlan_stack: ADVANCED
+nutanix_flow_adv_net_default_vlan_stack_allowed_values:
+  - LEGACY
+  - ADVANCED
