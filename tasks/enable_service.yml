@@ -46,7 +46,7 @@
     role_nutanix_prism_monitor_task_host_port: "{{ role_nutanix_pc_svc_flow_adv_net_host_port | default(omit) }}"
     role_nutanix_prism_monitor_task_host_validate_certs: "{{ role_nutanix_pc_svc_flow_adv_net_host_validate_certs | default(omit) }}"
     role_nutanix_prism_monitor_task_debug: "{{ role_nutanix_pc_svc_flow_adv_net_debug | default(omit) }}"
-    role_nutanix_prism_monitor_task_uuid: "{{ (nutanix_flow_adv_net_enable_controllers.json.data.extId | split(',=:'))[1] }}"
+    role_nutanix_prism_monitor_task_uuid: "{{ (nutanix_flow_adv_net_enable_controllers.json.data.extId | split(':'))[1] }}"
     role_nutanix_prism_monitor_task_retries: 30
     role_nutanix_prism_monitor_task_retry_delay: 120
 
